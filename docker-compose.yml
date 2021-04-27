@@ -1,0 +1,48 @@
+version: "3"
+services:
+  postgres:
+    container_name: "livestore_psql"
+    image: postgres:12.0-alpine
+    env_file:
+      - ./docker/postgres/.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5431:5432"
+  nginx:
+    image: nginx:alpine
+    container_name: "livestore_nginx"
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/:/etc/nginx/conf.d/
+    depends_on:
+      - app
+  pgadmin:
+    container_name: "livestore_pgadmin"
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+    - pgadmin:/root/.pgadmin
+    ports:
+      - "9000:80"
+    depends_on:
+      - postgres
+  app:
+    image: livestore_app:alpine
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: "livestore_app"
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - postgres
+      - pgadmin
+volumes:
+  postgres_data:
+  redis_data:
+  pgadmin:
