@@ -69,7 +69,7 @@ class ProductControllerTest extends TestCase
      */
     public function testForStoreProduct()
     {
-        $data = Product::factory()
+        $data = factory(Product::class)
             ->make()
             ->toArray();
 
