@@ -30,7 +30,7 @@ class ProductUpdateRequest extends FormRequest
         return [
             'name' => 'required|min:5',
             'description' => 'min:10',
-            'price' => 'min:1|integer',
+            'price' => 'required|min:1|integer',
             'weight' => 'integer',
             'color' => 'string'
         ];

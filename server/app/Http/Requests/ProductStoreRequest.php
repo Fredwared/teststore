@@ -30,7 +30,7 @@ class ProductStoreRequest extends FormRequest
         return [
             'name' => 'required|min:5',
             'description' => 'min:10',
-            'price' => 'min:1',
+            'price' => 'required|min:1',
             'weight' => 'integer',
             'color' => 'string'
         ];
